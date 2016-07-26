@@ -22,7 +22,10 @@ Plugin 'vim-scripts/Colour-Sampler-Pack'
 Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
 " Plugin 'vim-scripts/ShowTrailingWhitespace'
+
+""" Tmux
 Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'jgdavey/tslime.vim'
 
 """ ELIXIR
 Plugin 'elixir-lang/vim-elixir'
@@ -66,6 +69,15 @@ let mapleader = " "
 filetype plugin on
 syntax on
 set nocp
+
+""  TSlime
+let g:tslime_always_current_session = 1
+let g:tslime_always_current_window = 1
+autocmd FileType lisp nnoremap \re :Tmux (reload) <cr>
+vmap <C-c><C-c> <Plug>SendSelectionToTmux
+nmap <C-c><C-c> <Plug>NormalModeSendToTmux
+nmap <C-c>r <Plug>SetTmuxVars
+
 
 """ Settings for vim-jsx
 let g:jsx_ext_required = 0
