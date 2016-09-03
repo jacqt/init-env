@@ -15,17 +15,20 @@ Plugin 'gmarik/Vundle.vim'
 """ UTILS
 "Plugin 'scrooloose/syntastic'
 "Plugin 'Yggdroot/indentLine'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'Valloric/MatchTagAlways'
+" Plugin 'Valloric/MatchTagAlways'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'vim-scripts/Colour-Sampler-Pack'
 Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
-" Plugin 'vim-scripts/ShowTrailingWhitespace'
+Plugin 'Shougo/deoplete.nvim'
+Plugin 'carlitux/deoplete-ternjs'
+Plugin 'neomake/neomake'
 
-""" Tmux
+" Plugin 'wincent/Command-T'
+" Plugin 'vim-scripts/ShowTrailingWhitespace'
 Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'jgdavey/tslime.vim'
+
+Plugin 'jiangmiao/auto-pairs'
 
 """ ELIXIR
 Plugin 'elixir-lang/vim-elixir'
@@ -70,20 +73,12 @@ filetype plugin on
 syntax on
 set nocp
 
-""  TSlime
-let g:tslime_always_current_session = 1
-let g:tslime_always_current_window = 1
-autocmd FileType lisp nnoremap \re :Tmux (reload) <cr>
-vmap <C-c><C-c> <Plug>SendSelectionToTmux
-nmap <C-c><C-c> <Plug>NormalModeSendToTmux
-nmap <C-c>r <Plug>SetTmuxVars
-
-
 """ Settings for vim-jsx
 let g:jsx_ext_required = 0
 
 """ Settings to make editing ruby files faster
 set norelativenumber
+set re=1
 
 """ Customize gvim
 set guioptions-=m  "remove menu bar
@@ -93,6 +88,9 @@ set guioptions-=L  "remove left scroll bar
 set enc=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf8,prc
+
+""  Tmux navigation
+" autocmd BufReadPost,FileReadPost,BufNewFile * call system("tmux rename-window vim-%")
 
 "" Underline the current line when in insert mode
 :autocmd InsertEnter,InsertLeave * set cul!
@@ -128,19 +126,43 @@ function RunPython()
   setlocal noswapfile
 endfunction
 
+""" Linting
+autocmd! BufWritePost * Neomake
+let g:neomake_javascript_enabled_makers = ['eslint']
 
-""" YouCompleteMe settings
-let g:ycm_min_num_of_chars_for_completion = 1
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_cache_omnifunc = 0
-" autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-" Trigger semantic autocomplete 3 characters after an opening S-expr
-" as well as after a forward slash
-let g:ycm_semantic_triggers = {
-      \ 'clojure' : [ '/' , 're!\(...'],
-      \ 'clojurescript' : [ '/' ],
-      \ }
 
+""" Auto pair setting
+let g:AutoPairsCenterLine=0
+
+" Deocomplete settings
+let g:deoplete#enable_at_startup = 1
+if !exists('g:deoplete#omni#input_patterns')
+ let g:deoplete#omni#input_patterns = {}
+endif
+
+let g:deoplete#keyword_patterns = {}
+let g:deoplete#keyword_patterns.clojure = '[\w!$%&*+/:<=>?@\^_~\-\.]*'
+let g:deoplete#omni#input_patterns.clojure = '/'
+
+" let g:deoplete#disable_auto_complete = 1
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+ return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+ " For no inserting <CR> key.
+ "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
+""" Ctags setting
+" map <ctrl>+F12 to generate ctags for current folder:
+map <F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR>
+" add current directory's generated tags file to available tags
+set tags+=./tags
+set tags+=~/.vim/ctags/stl
+set tags+=$HOME/vimfiles/ctags/stl
 
 
 """ Useful commands
@@ -187,11 +209,6 @@ if has("gui_running")
   endif
 endif
 
-"" Begin useful shell commands
-"Command for converting dos to unix for every file in a directory:
-""find . -type f -exec dos2un
-
-set shell=/bin/bash
 set timeoutlen=1000 ttimeoutlen=0
 
 " Customize the tabline
@@ -220,3 +237,11 @@ function! MyTabLine()
   return s
 endfunction
 set tabline=%!MyTabLine()
+
+let g:python_host_prog = '/usr/bin/python2'
+let g:python3_host_prog = '/usr/bin/python3.3'
+
+set mouse=
+set shell=/bin/bash
+
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1

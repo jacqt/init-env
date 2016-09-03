@@ -28,9 +28,3 @@ git clone https://github.com/jacqt/jarvis4.git ~/github/jarvis4
 cd ~/github/jarvis4
 make zsh
 
-
-wget -O https://github.com/jacqt/init-env/raw/master/.clisprc.lisp
-
-# install quicklisp
-wget -O https://beta.quicklisp.org/quicklisp.lisp
-clisp -repl -i quicklisp.lisp
