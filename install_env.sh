@@ -7,13 +7,13 @@ cd ~/
 ## wget -O {URL} overwrites existing files
 
 # Get tmux conf
-wget -O https://github.com/jacqt/init-env/raw/master/.tmux.conf
+wget  https://github.com/jacqt/init-env/raw/master/.tmux.conf
 
 # Get vim conf
-wget -O https://github.com/jacqt/init-env/raw/master/.vimrc
+wget  https://github.com/jacqt/init-env/raw/master/.vimrc
 
 # Get zshrc
-wget -O https://github.com/jacqt/init-env/raw/master/.zshrc
+wget  https://github.com/jacqt/init-env/raw/master/.zshrc
 
 # Install Vundle
 mkdir ~/.vim/bundle -p

@@ -23,6 +23,9 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'Shougo/deoplete.nvim'
 Plugin 'carlitux/deoplete-ternjs'
 Plugin 'neomake/neomake'
+" Plugin 'xolox/vim-misc'
+" Plugin 'xolox/vim-session'
+Plugin 'tpope/vim-obsession'
 
 " Plugin 'wincent/Command-T'
 " Plugin 'vim-scripts/ShowTrailingWhitespace'
@@ -237,9 +240,6 @@ function! MyTabLine()
   return s
 endfunction
 set tabline=%!MyTabLine()
-
-let g:python_host_prog = '/usr/bin/python2'
-let g:python3_host_prog = '/usr/bin/python3.3'
 
 set mouse=
 set shell=/bin/bash
