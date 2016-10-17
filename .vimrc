@@ -15,7 +15,7 @@ Plugin 'gmarik/Vundle.vim'
 """ UTILS
 "Plugin 'scrooloose/syntastic'
 "Plugin 'Yggdroot/indentLine'
-" Plugin 'Valloric/MatchTagAlways'
+Plugin 'Valloric/MatchTagAlways'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'vim-scripts/Colour-Sampler-Pack'
 Plugin 'scrooloose/nerdtree'
@@ -26,7 +26,7 @@ Plugin 'neomake/neomake'
 " Plugin 'xolox/vim-misc'
 " Plugin 'xolox/vim-session'
 Plugin 'tpope/vim-obsession'
-Plugin 'tpope/vim-fugitive'j
+Plugin 'tpope/vim-fugitive'
 
 " Plugin 'wincent/Command-T'
 " Plugin 'vim-scripts/ShowTrailingWhitespace'
@@ -38,8 +38,8 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'elixir-lang/vim-elixir'
 
 """ RUBY
-" Plugin 'tpope/vim-rails'
-" Plugin 'vim-ruby/vim-ruby'
+Plugin 'tpope/vim-rails'
+Plugin 'vim-ruby/vim-ruby'
 
 """ JS / JSX
 Plugin 'pangloss/vim-javascript'
@@ -84,13 +84,14 @@ set scrolloff=1
 set sidescrolloff=5
 set statusline=%{fugitive#statusline()}\ %f
 
-
 """ Settings for vim-jsx
 let g:jsx_ext_required = 0
 
 """ Settings to make editing ruby files faster
 set norelativenumber
 set re=1
+set ttyfast
+set lazyredraw
 
 """ Customize gvim
 set guioptions-=m  "remove menu bar
@@ -141,6 +142,27 @@ endfunction
 """ Linting
 autocmd! BufWritePost * Neomake
 let g:neomake_javascript_enabled_makers = ['eslint']
+
+function! NeomakeESlintChecker()
+  let l:npm_bin = ''
+  let l:eslint = 'eslint'
+
+  if executable('npm')
+    let l:npm_bin = split(system('npm bin'), '\n')[0]
+  endif
+
+  if strlen(l:npm_bin) && executable(l:npm_bin . '/eslint')
+    let l:eslint = l:npm_bin . '/eslint'
+  endif
+
+  let b:neomake_javascript_enabled_makers = ['eslint']
+  let b:neomake_jsx_enabled_makers = ['eslint']
+  let b:neomake_jsx_eslint_exe = l:eslint
+  let b:neomake_javascript_eslint_exe = l:eslint
+
+endfunction
+autocmd FileType javascript :call NeomakeESlintChecker()
+let g:neomake_logfile = '/home/anthony/neomake.log'
 
 
 """ Auto pair setting
