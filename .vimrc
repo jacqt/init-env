@@ -26,6 +26,7 @@ Plugin 'neomake/neomake'
 " Plugin 'xolox/vim-misc'
 " Plugin 'xolox/vim-session'
 Plugin 'tpope/vim-obsession'
+Plugin 'tpope/vim-fugitive'j
 
 " Plugin 'wincent/Command-T'
 " Plugin 'vim-scripts/ShowTrailingWhitespace'
@@ -75,6 +76,14 @@ let mapleader = " "
 filetype plugin on
 syntax on
 set nocp
+set list
+if &listchars ==# 'eol:$'
+  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+endif
+set scrolloff=1
+set sidescrolloff=5
+set statusline=%{fugitive#statusline()}\ %f
+
 
 """ Settings for vim-jsx
 let g:jsx_ext_required = 0
