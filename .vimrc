@@ -116,8 +116,11 @@ nnoremap <C-p> :UniteWithProjectDir -ignorecase -start-insert file_rec/async<cr>
 autocmd BufEnter * stopinsert 
 
 nnoremap <leader>g :UniteWithProjectDir grep:<cr>
-nnoremap <leader>s :Unite buffer<cr>
+nnoremap <leader>s :Unite -start-insert buffer<cr>
 nnoremap <leader>f :UniteWithProjectDir grep:::<C-R><C-w><CR>
+
+let g:unite_winheight=10
+
 
 
 
