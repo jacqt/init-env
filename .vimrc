@@ -89,7 +89,14 @@ set scrolloff=1
 set sidescrolloff=5
 set statusline=%{fugitive#statusline()}\ %f
 
+"" Underline the current line when in insert mode
+:autocmd InsertEnter,InsertLeave * set cul!
+
+
+"""""""""""""""""""""""""""""""""""""""""""
 """ Settings for Unite.vim
+
+let g:unite_winheight=10
 let g:unite_source_rec_async_command =
       \ ['ag', '--follow', '--nocolor', '--nogroup',
       \  '--hidden', '-g', '']
@@ -119,7 +126,7 @@ nnoremap <leader>g :UniteWithProjectDir grep:<cr>
 nnoremap <leader>s :Unite -start-insert buffer<cr>
 nnoremap <leader>f :UniteWithProjectDir grep:::<C-R><C-w><CR>
 
-let g:unite_winheight=10
+"""""""""""""""""""""""""""""""""""""""""""
 
 
 """ Settings for gitgutter
@@ -135,20 +142,6 @@ set re=1
 set ttyfast
 set lazyredraw
 
-""" Customize gvim
-set guioptions-=m  "remove menu bar
-set guioptions-=T  "remove toolbar
-set guioptions-=r  "remove right scroll bar
-set guioptions-=L  "remove left scroll bar
-set enc=utf-8
-set fileencoding=utf-8
-set fileencodings=ucs-bom,utf8,prc
-
-""  Tmux navigation
-" autocmd BufReadPost,FileReadPost,BufNewFile * call system("tmux rename-window vim-%")
-
-"" Underline the current line when in insert mode
-:autocmd InsertEnter,InsertLeave * set cul!
 
 nnoremap <C-6> <C-S-^>
 
@@ -184,6 +177,7 @@ function RunPython()
   setlocal noswapfile
 endfunction
 
+"""""""""""""""""""""""""""""""""""""""""""
 """ Linting
 autocmd! BufWritePost * Neomake
 let g:neomake_javascript_enabled_makers = ['eslint']
@@ -209,10 +203,12 @@ endfunction
 autocmd FileType javascript :call NeomakeESlintChecker()
 let g:neomake_logfile = '/home/anthony/neomake.log'
 
+"""""""""""""""""""""""""""""""""""""""""""
 
 """ Auto pair setting
 let g:AutoPairsCenterLine=0
 
+"""""""""""""""""""""""""""""""""""""""""""
 " Deocomplete settings
 let g:deoplete#enable_at_startup = 1
 if !exists('g:deoplete#omni#input_patterns')
@@ -234,7 +230,9 @@ function! s:my_cr_function()
 endfunction
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"""""""""""""""""""""""""""""""""""""""""""
 
+"""""""""""""""""""""""""""""""""""""""""""
 """ Ctags setting
 " map <ctrl>+F12 to generate ctags for current folder:
 map <F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR>
@@ -242,6 +240,7 @@ map <F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR>
 set tags+=./tags
 set tags+=~/.vim/ctags/stl
 set tags+=$HOME/vimfiles/ctags/stl
+"""""""""""""""""""""""""""""""""""""""""""
 
 
 """ Useful commands
@@ -277,17 +276,6 @@ command! -nargs=+ -complete=command TM call TM(<q-args>)
 "
 set backspace=indent,eol,start
 
-"To set the fonts right
-if has("gui_running")
-  if has("gui_gtk2")
-    set guifont=Inconsolata\ 10
-  elseif has("gui_macvim")
-    set guifont=Menlo\ Regular:h12
-  elseif has("gui_win32")
-    set guifont=Consolas:h12:cANSI
-  endif
-endif
-
 set timeoutlen=1000 ttimeoutlen=0
 
 " Customize the tabline
@@ -321,3 +309,25 @@ set mouse-=a
 set shell=/bin/bash
 
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+
+"""""""""""""""""""""""""""""""""""""""""""
+""" Customize gvim
+set guioptions-=m  "remove menu bar
+set guioptions-=T  "remove toolbar
+set guioptions-=r  "remove right scroll bar
+set guioptions-=L  "remove left scroll bar
+set enc=utf-8
+set fileencoding=utf-8
+set fileencodings=ucs-bom,utf8,prc
+
+"To set the fonts right
+if has("gui_running")
+  if has("gui_gtk2")
+    set guifont=Inconsolata\ 10
+  elseif has("gui_macvim")
+    set guifont=Menlo\ Regular:h12
+  elseif has("gui_win32")
+    set guifont=Consolas:h12:cANSI
+  endif
+endif
+"""""""""""""""""""""""""""""""""""""""""""
