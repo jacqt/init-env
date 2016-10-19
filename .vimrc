@@ -19,10 +19,15 @@ Plugin 'Valloric/MatchTagAlways'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'vim-scripts/Colour-Sampler-Pack'
 Plugin 'scrooloose/nerdtree'
-Plugin 'kien/ctrlp.vim'
 Plugin 'Shougo/deoplete.nvim'
 Plugin 'carlitux/deoplete-ternjs'
 Plugin 'neomake/neomake'
+Plugin 'Shougo/vimproc.vim'
+
+" Plugin 'Shougo/denite.nvim'
+"
+Plugin 'Shougo/unite.vim'
+
 " Plugin 'xolox/vim-misc'
 " Plugin 'xolox/vim-session'
 Plugin 'tpope/vim-obsession'
@@ -63,7 +68,7 @@ filetype plugin indent on    " required
 """ Generic useful settings
 set hlsearch
 set autochdir
-set foldmethod=syntax
+set foldmethod=manual
 set foldnestmax=3
 set foldlevel=1
 set number
@@ -83,6 +88,21 @@ endif
 set scrolloff=1
 set sidescrolloff=5
 set statusline=%{fugitive#statusline()}\ %f
+
+""" Settings for Unite.vim
+let g:unite_source_grep_command = 'ag'
+let g:unite_source_grep_default_opts =
+\ '-i --vimgrep --hidden --ignore ' .
+\ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+
+nnoremap <C-p> :Unite -ignorecase -start-insert -complete file_rec/async<cr>
+nnoremap <leader>g :Unite grep:.<cr>
+nnoremap <leader>s :Unite -quick-match buffer<cr>
+nnoremap <leader>f :UniteWithCursorWord grep:.<cr>
+
+
 
 """ Settings for vim-jsx
 let g:jsx_ext_required = 0
@@ -125,6 +145,9 @@ color wombat256mod
 let g:paredit_shortmaps=0
 "let g:clojure_foldwords ="def,ns"
 let g:rainbow_active = 1
+
+" react-native 
+autocmd FileType javascript nnoremap \re :! /home/anthony/github/venmo_app/scripts/android_reload.sh<cr>
 
 """ Python specific settings
 autocmd FileType python nnoremap \re : call RunPython()<cr>
@@ -272,7 +295,7 @@ function! MyTabLine()
 endfunction
 set tabline=%!MyTabLine()
 
-set mouse=
+set mouse-=a
 set shell=/bin/bash
 
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
