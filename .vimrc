@@ -23,8 +23,8 @@ Plugin 'Shougo/deoplete.nvim'
 Plugin 'carlitux/deoplete-ternjs'
 Plugin 'neomake/neomake'
 Plugin 'Shougo/vimproc.vim'
+Plugin 'airblade/vim-gitgutter'
 
-Plugin 'Shougo/denite.nvim'
 "
 Plugin 'Shougo/unite.vim'
 
@@ -122,6 +122,8 @@ nnoremap <leader>f :UniteWithProjectDir grep:::<C-R><C-w><CR>
 let g:unite_winheight=10
 
 
+""" Settings for gitgutter
+set updatetime=250
 
 
 """ Settings for vim-jsx
