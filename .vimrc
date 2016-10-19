@@ -97,7 +97,11 @@ let g:unite_source_grep_default_opts =
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
 
-nnoremap <C-p> :Unite -ignorecase -start-insert -complete file_rec/async<cr>
+" Ctrl-P like binding. We stopinsert on bufenter because Unite opens buffers in
+" insertmode as opposed to normal mode
+nnoremap <C-p> :UniteWithProjectDir -ignorecase -start-insert -complete file_rec/async<cr>
+autocmd BufEnter * stopinsert 
+
 nnoremap <leader>g :Unite grep:.<cr>
 nnoremap <leader>s :Unite -quick-match buffer<cr>
 nnoremap <leader>f :UniteWithCursorWord grep:.<cr>
