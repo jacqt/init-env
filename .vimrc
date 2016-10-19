@@ -24,7 +24,7 @@ Plugin 'carlitux/deoplete-ternjs'
 Plugin 'neomake/neomake'
 Plugin 'Shougo/vimproc.vim'
 
-" Plugin 'Shougo/denite.nvim'
+Plugin 'Shougo/denite.nvim'
 "
 Plugin 'Shougo/unite.vim'
 
@@ -90,21 +90,34 @@ set sidescrolloff=5
 set statusline=%{fugitive#statusline()}\ %f
 
 """ Settings for Unite.vim
+let g:unite_source_rec_async_command =
+      \ ['ag', '--follow', '--nocolor', '--nogroup',
+      \  '--hidden', '-g', '']
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+      \ 'ignore_pattern', join([
+      \ '\.git/',
+      \ 'build/',
+      \ 'Pods/',
+      \ 'tmp/',
+      \ 'node_modules/',
+      \ 'bower_components/',
+      \ 'dist/',
+      \ ], '\|'))
 let g:unite_source_grep_command = 'ag'
 let g:unite_source_grep_default_opts =
 \ '-i --vimgrep --hidden --ignore ' .
 \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
+call unite#filters#sorter_default#use(['sorter_selecta'])
 
 " Ctrl-P like binding. We stopinsert on bufenter because Unite opens buffers in
 " insertmode as opposed to normal mode
-nnoremap <C-p> :UniteWithProjectDir -ignorecase -start-insert -complete file_rec/async<cr>
+nnoremap <C-p> :UniteWithProjectDir -ignorecase -start-insert file_rec/async<cr>
 autocmd BufEnter * stopinsert 
 
-nnoremap <leader>g :Unite grep:.<cr>
-nnoremap <leader>s :Unite -quick-match buffer<cr>
-nnoremap <leader>f :UniteWithCursorWord grep:.<cr>
+nnoremap <leader>g :UniteWithProjectDir grep:<cr>
+nnoremap <leader>s :Unite buffer<cr>
+nnoremap <leader>f :UniteWithProjectDir grep:::<C-R><C-w><CR>
 
 
 
