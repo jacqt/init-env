@@ -162,13 +162,14 @@ color wombat256mod
 let g:paredit_shortmaps=0
 "let g:clojure_foldwords ="def,ns"
 let g:rainbow_active = 1
+autocmd FileType clojure nnoremap <leader>r :Require<cr>
 
 " react-native 
-autocmd FileType javascript nnoremap \re :! /home/anthony/github/venmo_app/scripts/android_reload.sh<cr>
-autocmd FileType javascript nnoremap \rm :! /home/anthony/github/venmo_app/scripts/android_menu.sh<cr>
+autocmd FileType javascript nnoremap <leader>r :! /home/anthony/github/venmo_app/scripts/android_reload.sh<cr>
+autocmd FileType javascript nnoremap <leader>re :! /home/anthony/github/venmo_app/scripts/android_menu.sh<cr>
 
 """ Python specific settings
-autocmd FileType python nnoremap \re : call RunPython()<cr>
+autocmd FileType python nnoremap <leader>r : call RunPython()<cr>
 autocmd FileType python iab ## #############################################################
 autocmd FileType python set foldmethod=indent
 autocmd FileType python nnoremap <space> za
