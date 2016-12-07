@@ -30,7 +30,7 @@ Plugin 'Shougo/unite.vim'
 
 " Plugin 'xolox/vim-misc'
 " Plugin 'xolox/vim-session'
-Plugin 'tpope/vim-obsession'
+" Plugin 'tpope/vim-obsession'
 Plugin 'tpope/vim-fugitive'
 
 " Plugin 'wincent/Command-T'
@@ -123,7 +123,6 @@ call unite#filters#sorter_default#use(['sorter_selecta'])
 " Ctrl-P like binding. We stopinsert on bufenter because Unite opens buffers in
 " insertmode as opposed to normal mode
 nnoremap <C-p> :UniteWithProjectDir -ignorecase -start-insert file_rec/async<cr>
-autocmd BufEnter * stopinsert 
 
 nnoremap <leader>g :UniteWithProjectDir grep:<cr>
 nnoremap <leader>s :Unite -start-insert buffer<cr>
@@ -166,6 +165,7 @@ let g:rainbow_active = 1
 
 " react-native 
 autocmd FileType javascript nnoremap \re :! /home/anthony/github/venmo_app/scripts/android_reload.sh<cr>
+autocmd FileType javascript nnoremap \rm :! /home/anthony/github/venmo_app/scripts/android_menu.sh<cr>
 
 """ Python specific settings
 autocmd FileType python nnoremap \re : call RunPython()<cr>
@@ -227,9 +227,9 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
- return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+"  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
  " For no inserting <CR> key.
- "return pumvisible() ? "\<C-y>" : "\<CR>"
+ return pumvisible() ? "\<C-y>" : "\<CR>"
 endfunction
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
