@@ -24,6 +24,8 @@ Plugin 'carlitux/deoplete-ternjs'
 Plugin 'neomake/neomake'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'jgdavey/tslime.vim'
+Plugin 'mindriot101/vim-tslime-input'
 
 "
 Plugin 'Shougo/unite.vim'
@@ -92,9 +94,10 @@ set statusline=%{fugitive#statusline()}\ %f
 "" Underline the current line when in insert mode
 :autocmd InsertEnter,InsertLeave * set cul!
 
-"" Shortcuts for writing and quitting
-nnoremap <leader>e :w<cr>
+"" Shortcuts for writing, quitting, and copying
+nnoremap <leader>w :w<cr>
 nnoremap <leader>q :wq<cr>
+nnoremap <leader>c :%y+<cr>
 
 """""""""""""""""""""""""""""""""""""""""""
 """ Settings for Unite.vim
@@ -130,6 +133,10 @@ nnoremap <leader>f :UniteWithProjectDir grep:::<C-R><C-w><CR>
 
 """""""""""""""""""""""""""""""""""""""""""
 
+""" Settings for tslime.vim
+let g:tslime_always_current_session = 1
+let g:tslime_always_current_window = 1
+
 
 """ Settings for gitgutter
 set updatetime=250
@@ -163,6 +170,8 @@ let g:paredit_shortmaps=0
 "let g:clojure_foldwords ="def,ns"
 let g:rainbow_active = 1
 autocmd FileType clojure nnoremap <leader>r :Require<cr>
+autocmd FileType clojure nnoremap <leader>e :Tmux (run-test)<cr>
+autocmd FileType clojure nnoremap <leader>re :Require <bar> :Tmux (run-test)<cr>
 
 " react-native 
 autocmd FileType javascript nnoremap <leader>r :! /home/anthony/github/venmo_app/scripts/android_reload.sh<cr>
