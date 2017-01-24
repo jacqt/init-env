@@ -243,6 +243,7 @@ function! s:my_cr_function()
 endfunction
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+nnoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<TAB>"
 """""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""
