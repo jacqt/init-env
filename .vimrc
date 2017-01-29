@@ -103,22 +103,10 @@ nnoremap <leader>c :%y+<cr>
 
 """""""""""""""""""""""""""""""""""""""""""
 """ Settings for Denite.vim
-call denite#custom#var('file_rec', 'command',
-      \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-call denite#custom#source('file_rec', 'matchers', ['matcher_fuzzy', 'ignore_globs', 'matcher_ignore_globs'])
-call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
-      \ [ '*~', '*.o', '*.exe', '*.bak',
-      \ '.DS_Store', '*.pyc', '*.sw[po]', '*.class',
-      \ 'build/',
-      \ 'ios/',
-      \ 'Pods/',
-      \ 'tmp/',
-      \ 'node_modules/',
-      \ 'bower_components/',
-      \ '.hg/', '.git/', '.bzr/', '.svn/',
-      \ 'node_modules/', 'bower_components/', 'tmp/', 'log/', 'vendor/ruby',
-      \ '.idea/', 'dist/',
-      \ 'tags', 'tags-*'])
+call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+call denite#custom#var('file_rec', 'min_cache_files', 1000)
+call denite#custom#source('file_rec', 'matchers', ['matcher_fuzzy'])
+
 call denite#custom#var('grep', 'command', ['ack'])
 nnoremap <C-p> :DeniteProjectDir file_rec<cr>
 nnoremap <leader>g :DeniteProjectDir grep<cr>
