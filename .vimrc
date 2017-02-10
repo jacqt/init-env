@@ -28,7 +28,7 @@ Plugin 'jgdavey/tslime.vim'
 Plugin 'mindriot101/vim-tslime-input'
 
 "
-Plugin 'Shougo/unite.vim'
+Plugin 'Shougo/denite.nvim'
 
 " Plugin 'xolox/vim-misc'
 " Plugin 'xolox/vim-session'
@@ -69,6 +69,8 @@ filetype plugin indent on    " required
 
 """ Generic useful settings
 set hlsearch
+set incsearch
+set smartcase
 set autochdir
 set foldmethod=manual
 set foldnestmax=3
@@ -103,36 +105,17 @@ nnoremap <leader>j gT
 nnoremap <leader>k gt
 
 """""""""""""""""""""""""""""""""""""""""""
-""" Settings for Unite.vim
+""" Settings for Denite.vim
+call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+call denite#custom#var('file_rec', 'min_cache_files', 1000)
+call denite#custom#source('file_rec', 'matchers', ['matcher_fuzzy'])
 
-let g:unite_winheight=10
-let g:unite_source_rec_async_command =
-      \ ['ag', '--follow', '--nocolor', '--nogroup',
-      \  '--hidden', '-g', '']
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-      \ 'ignore_pattern', join([
-      \ '\.git/',
-      \ 'build/',
-      \ 'Pods/',
-      \ 'tmp/',
-      \ 'node_modules/',
-      \ 'bower_components/',
-      \ 'dist/',
-      \ ], '\|'))
-let g:unite_source_grep_command = 'ag'
-let g:unite_source_grep_default_opts =
-\ '-i --vimgrep --hidden --ignore ' .
-\ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_selecta'])
-
-" Ctrl-P like binding. We stopinsert on bufenter because Unite opens buffers in
-" insertmode as opposed to normal mode
-nnoremap <C-p> :UniteWithProjectDir -ignorecase -start-insert file_rec/async<cr>
-
-nnoremap <leader>g :UniteWithProjectDir grep:<cr>
-nnoremap <leader>s :Unite -start-insert buffer<cr>
-nnoremap <leader>f :UniteWithProjectDir grep:::<C-R><C-w><CR>
+call denite#custom#var('grep', 'command', ['ack'])
+nnoremap <C-p> :DeniteProjectDir file_rec<cr>
+nnoremap <leader>g :DeniteProjectDir grep<cr>
+nnoremap <leader>f :DeniteProjectDir grep:::<C-R><C-w><CR>
+nnoremap <leader>s :Denite buffer<cr>
+nnoremap <leader>j :Denite jump<CR>
 
 """""""""""""""""""""""""""""""""""""""""""
 
@@ -172,13 +155,13 @@ color wombat256mod
 let g:paredit_shortmaps=0
 "let g:clojure_foldwords ="def,ns"
 let g:rainbow_active = 1
-autocmd FileType clojure nnoremap <leader>r :Require<cr>
+autocmd FileType clojure nnoremap <leader>r :Require!<cr>
 autocmd FileType clojure nnoremap <leader>e :Tmux (run-test)<cr>
 autocmd FileType clojure nnoremap <leader>re :Require <bar> :Tmux (run-test)<cr>
 
 " react-native 
-autocmd FileType javascript nnoremap <leader>r :! /home/anthony/github/venmo_app/scripts/android_reload.sh<cr>
-autocmd FileType javascript nnoremap <leader>re :! /home/anthony/github/venmo_app/scripts/android_menu.sh<cr>
+autocmd FileType javascript nnoremap <leader>r :! $HOME/github/venmo_app/scripts/android_reload.sh<cr>
+autocmd FileType javascript nnoremap <leader>re :! $HOME/github/venmo_app/scripts/android_menu.sh<cr>
 
 """ Python specific settings
 autocmd FileType python nnoremap <leader>r : call RunPython()<cr>
@@ -217,7 +200,6 @@ function! NeomakeESlintChecker()
 
 endfunction
 autocmd FileType javascript :call NeomakeESlintChecker()
-let g:neomake_logfile = '/home/anthony/neomake.log'
 
 """""""""""""""""""""""""""""""""""""""""""
 
@@ -246,6 +228,7 @@ function! s:my_cr_function()
 endfunction
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+nnoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<TAB>"
 """""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""
