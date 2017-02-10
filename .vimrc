@@ -94,10 +94,13 @@ set statusline=%{fugitive#statusline()}\ %f
 "" Underline the current line when in insert mode
 :autocmd InsertEnter,InsertLeave * set cul!
 
-"" Shortcuts for writing, quitting, and copying
+"" Shortcuts for writing, quitting, and copying, and tabs
 nnoremap <leader>w :w<cr>
 nnoremap <leader>q :wq<cr>
 nnoremap <leader>c :%y+<cr>
+nnoremap <leader>t :tabnew<cr>
+nnoremap <leader>j gT
+nnoremap <leader>k gt
 
 """""""""""""""""""""""""""""""""""""""""""
 """ Settings for Unite.vim
