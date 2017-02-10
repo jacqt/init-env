@@ -152,7 +152,7 @@ color wombat256mod
 let g:paredit_shortmaps=0
 "let g:clojure_foldwords ="def,ns"
 let g:rainbow_active = 1
-autocmd FileType clojure nnoremap <leader>r :Require<cr>
+autocmd FileType clojure nnoremap <leader>r :Require!<cr>
 autocmd FileType clojure nnoremap <leader>e :Tmux (run-test)<cr>
 autocmd FileType clojure nnoremap <leader>re :Require <bar> :Tmux (run-test)<cr>
 
