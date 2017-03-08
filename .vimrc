@@ -19,8 +19,10 @@ Plugin 'Valloric/MatchTagAlways'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'vim-scripts/Colour-Sampler-Pack'
 Plugin 'scrooloose/nerdtree'
+" Plugin 'Valloric/YouCompleteMe'
 Plugin 'Shougo/deoplete.nvim'
 Plugin 'carlitux/deoplete-ternjs'
+Plugin 'heavenshell/vim-jsdoc'
 Plugin 'neomake/neomake'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'airblade/vim-gitgutter'
@@ -51,6 +53,8 @@ Plugin 'vim-ruby/vim-ruby'
 """ JS / JSX
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+Plugin 'cakebaker/scss-syntax.vim'
+
 
 """ CLOJURE / CLOJURESCRIPT / COMMON LISP
 Plugin 'tpope/vim-fireplace'
@@ -93,6 +97,9 @@ set scrolloff=1
 set sidescrolloff=5
 set statusline=%{fugitive#statusline()}\ %f
 
+" Webpack
+set backupcopy=yes
+
 "" Underline the current line when in insert mode
 :autocmd InsertEnter,InsertLeave * set cul!
 
@@ -101,8 +108,10 @@ nnoremap <leader>w :w<cr>
 nnoremap <leader>q :wq<cr>
 nnoremap <leader>c :%y+<cr>
 nnoremap <leader>t :tabnew<cr>
-nnoremap <leader>j gT
-nnoremap <leader>k gt
+nnoremap <leader>x :q!<cr>
+nnoremap <leader>d :JsDoc<cr>
+nnoremap gj gt
+nnoremap gh gT
 
 """""""""""""""""""""""""""""""""""""""""""
 """ Settings for Denite.vim
@@ -110,7 +119,19 @@ call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '-
 call denite#custom#var('file_rec', 'min_cache_files', 1000)
 call denite#custom#source('file_rec', 'matchers', ['matcher_fuzzy'])
 
+" call denite#custom#var('grep', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+" call denite#custom#var('grep', 'command', ['ack'])
+
+" Ack command on grep source
 call denite#custom#var('grep', 'command', ['ack'])
+call denite#custom#var('grep', 'default_opts',
+      \ ['-H', '--nopager', '--nocolor', '--nogroup', '--column'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', ['--match'])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', [])
+call denite#custom#source('grep', 'matchers', ['matcher_fuzzy'])
+
 nnoremap <C-p> :DeniteProjectDir file_rec<cr>
 nnoremap <leader>g :DeniteProjectDir grep<cr>
 nnoremap <leader>f :DeniteProjectDir grep:::<C-R><C-w><CR>
@@ -218,8 +239,9 @@ let g:deoplete#keyword_patterns.clojure = '[\w!$%&*+/:<=>?@\^_~\-\.]*'
 let g:deoplete#omni#input_patterns.clojure = '/'
 
 " let g:deoplete#disable_auto_complete = 1
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
 " <CR>: close popup and save indent.
+
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
 "  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
@@ -229,6 +251,18 @@ endfunction
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 nnoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<TAB>"
+
+
+" Use deoplete.
+let g:tern_request_timeout = 1
+" let g:tern_show_signature_in_pum = '0'  " This do disable full signature type on autocomplete
+
+"Add extra filetypes
+let g:tern#filetypes = [
+                \ 'jsx',
+                \ 'javascript.jsx',
+                \ 'vue',
+                \ ]
 """""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""
