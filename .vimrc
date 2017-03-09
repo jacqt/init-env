@@ -364,3 +364,4 @@ if has("gui_running")
   endif
 endif
 """""""""""""""""""""""""""""""""""""""""""
+set t_Co=256
