@@ -52,6 +52,7 @@ Plugin 'vim-ruby/vim-ruby'
 
 """ JS / JSX
 Plugin 'pangloss/vim-javascript'
+Plugin 'jelera/vim-javascript-syntax'
 Plugin 'mxw/vim-jsx'
 Plugin 'cakebaker/scss-syntax.vim'
 

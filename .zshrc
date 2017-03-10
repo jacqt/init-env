@@ -94,7 +94,9 @@ export EDITOR="vim"
 LS_COLORS='ow=01;36;40'
 export LS_COLORS 
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  "--no-use" # This loads nvm
 
 panewrap () { printf "\033]2;%s\033\\" "$1"; "$@";   printf "\033]2;%s\033\\" "zsh" }
+
+export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
