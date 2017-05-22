@@ -141,7 +141,7 @@ function precmd {
 export SAVEHIST="10000000"
 
 panewrap () { printf "\033]2;%s\033\\" "$1"; "$@";   printf "\033]2;%s\033\\" "zsh" }
-export EDITOR=v
+export EDITOR=nvim
 
 v() {
   if [ -z $NVIM_LISTEN_ADDRESS ]; then
