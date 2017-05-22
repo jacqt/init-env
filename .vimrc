@@ -142,7 +142,7 @@ set backupcopy=yes
 
 "" Shortcuts for writing, quitting, and copying, and tabs
 nnoremap <leader>w :w<cr>
-nnoremap <leader>q :wq<cr>
+nnoremap <leader>q :bp<bar>bd #<cr>
 nnoremap <leader>c :%y+<cr>
 nnoremap <leader>t :tabnew<cr>
 nnoremap <leader>x :q!<cr>
