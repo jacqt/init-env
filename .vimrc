@@ -18,16 +18,18 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'Valloric/MatchTagAlways'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'vim-scripts/Colour-Sampler-Pack'
+Plugin 'morhetz/gruvbox'
 Plugin 'scrooloose/nerdtree'
 " Plugin 'Valloric/YouCompleteMe'
 Plugin 'Shougo/deoplete.nvim'
-Plugin 'carlitux/deoplete-ternjs'
+" Plugin 'carlitux/deoplete-ternjs'
 Plugin 'heavenshell/vim-jsdoc'
 Plugin 'neomake/neomake'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'jgdavey/tslime.vim'
 Plugin 'mindriot101/vim-tslime-input'
+Plugin 'alvan/vim-closetag'
 
 "
 Plugin 'Shougo/denite.nvim'
@@ -52,7 +54,6 @@ Plugin 'vim-ruby/vim-ruby'
 
 """ JS / JSX
 Plugin 'pangloss/vim-javascript'
-Plugin 'jelera/vim-javascript-syntax'
 Plugin 'mxw/vim-jsx'
 Plugin 'cakebaker/scss-syntax.vim'
 
@@ -98,6 +99,41 @@ set scrolloff=1
 set sidescrolloff=5
 set statusline=%{fugitive#statusline()}\ %f
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Settings for neovim terminal
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Remap navigation
+tnoremap <C-h> <C-\><C-N><C-w>h
+tnoremap <C-j> <C-\><C-N><C-w>j
+tnoremap <C-k> <C-\><C-N><C-w>k
+tnoremap <C-l> <C-\><C-N><C-w>l
+inoremap <C-h> <C-\><C-N><C-w>h
+inoremap <C-j> <C-\><C-N><C-w>j
+inoremap <C-k> <C-\><C-N><C-w>k
+inoremap <C-l> <C-\><C-N><C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+" Map Ctrl+] to escape
+tnoremap <C-[> <C-\><C-n>
+" When entering a terminal, go into insert mode
+autocmd BufWinEnter,WinEnter term://* startinsert
+
+tnoremap <C-p> <C-\><C-n>pi
+tnoremap <C-n> <C-\><C-n>:rightb vsplit<CR><C-\><C-n>:terminal<CR>
+nnoremap <C-n> :rightb vsplit<CR><C-l>:terminal<CR>
+
+"Color scheme for terminal
+let g:terminal_color_0="#1b2b34"
+let g:terminal_color_1="#ed5f67"
+let g:terminal_color_2="#9ac895"
+let g:terminal_color_3="#fbc963"
+let g:terminal_color_4="#669acd"
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " Webpack
 set backupcopy=yes
 
@@ -111,8 +147,8 @@ nnoremap <leader>c :%y+<cr>
 nnoremap <leader>t :tabnew<cr>
 nnoremap <leader>x :q!<cr>
 nnoremap <leader>d :JsDoc<cr>
-nnoremap gj gt
-nnoremap gh gT
+nnoremap gn gt
+nnoremap gp gT
 
 """""""""""""""""""""""""""""""""""""""""""
 """ Settings for Denite.vim
@@ -126,7 +162,7 @@ call denite#custom#source('file_rec', 'matchers', ['matcher_fuzzy'])
 " Ack command on grep source
 call denite#custom#var('grep', 'command', ['ack'])
 call denite#custom#var('grep', 'default_opts',
-      \ ['-H', '--nopager', '--nocolor', '--nogroup', '--column'])
+      \ ['-H', '--nopager', '--nocolor', '--nogroup', '--column', '--ignore-dir', '.happypack', '--ignore-dir', 'dist'])
 call denite#custom#var('grep', 'recursive_opts', [])
 call denite#custom#var('grep', 'pattern_opt', ['--match'])
 call denite#custom#var('grep', 'separator', ['--'])
@@ -170,8 +206,12 @@ nnoremap <C-6> <C-S-^>
 "color wombat256
 "color moria
 "color bclear
-color wombat256mod
+" color wombat256mod
+" color lucius
 " color darkblue
+let g:gruvbox_contrast_dark='hard'
+color gruvbox
+set background=dark
 
 """ Clojure specific settings
 let g:paredit_shortmaps=0
@@ -201,7 +241,11 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""
 """ Linting
 autocmd! BufWritePost * Neomake
-let g:neomake_javascript_enabled_makers = ['eslint']
+" let g:neomake_javascript_enabled_makers = ['eslint']
+" let b:neomake_javascript_enabled_makers = ['eslint']
+" let b:neomake_jsx_enabled_makers = ['eslint']
+" let b:neomake_jsx_eslint_exe = '/home/anthony/github/hammerhead/node_modules/.bin/eslint'
+" let b:neomake_javascript_eslint_exe = '/home/anthony/github/hammerhead/node_modules/.bin/eslint'
 
 function! NeomakeESlintChecker()
   let l:npm_bin = ''
@@ -215,13 +259,9 @@ function! NeomakeESlintChecker()
     let l:eslint = l:npm_bin . '/eslint'
   endif
 
-  let b:neomake_javascript_enabled_makers = ['eslint']
-  let b:neomake_jsx_enabled_makers = ['eslint']
-  let b:neomake_jsx_eslint_exe = l:eslint
-  let b:neomake_javascript_eslint_exe = l:eslint
 
 endfunction
-autocmd FileType javascript :call NeomakeESlintChecker()
+" autocmd FileType javascript :call NeomakeESlintChecker()
 
 """""""""""""""""""""""""""""""""""""""""""
 
@@ -231,6 +271,7 @@ let g:AutoPairsCenterLine=0
 """""""""""""""""""""""""""""""""""""""""""
 " Deocomplete settings
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#auto_complete_delay = 10
 if !exists('g:deoplete#omni#input_patterns')
  let g:deoplete#omni#input_patterns = {}
 endif
@@ -253,6 +294,8 @@ endfunction
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 nnoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<TAB>"
 
+
+let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.php,*.jsx,*.js"
 
 " Use deoplete.
 let g:tern_request_timeout = 1
