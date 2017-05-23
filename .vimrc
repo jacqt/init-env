@@ -30,8 +30,8 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'jgdavey/tslime.vim'
 Plugin 'mindriot101/vim-tslime-input'
 Plugin 'alvan/vim-closetag'
+Plugin 'vim-scripts/kwbdi.vim'
 
-"
 Plugin 'Shougo/denite.nvim'
 
 " Plugin 'xolox/vim-misc'
@@ -134,6 +134,21 @@ let g:terminal_color_4="#669acd"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+command! CloseHiddenBuffers call s:CloseHiddenBuffers()
+function! s:CloseHiddenBuffers()
+  let open_buffers = []
+
+  for i in range(tabpagenr('$'))
+    call extend(open_buffers, tabpagebuflist(i + 1))
+  endfor
+
+  for num in range(1, bufnr("$") + 1)
+    if buflisted(num) && index(open_buffers, num) == -1
+      exec "bdelete ".num
+    endif
+  endfor
+endfunction
+
 " Webpack
 set backupcopy=yes
 
@@ -142,8 +157,7 @@ set backupcopy=yes
 
 "" Shortcuts for writing, quitting, and copying, and tabs
 nnoremap <leader>w :w<cr>
-nnoremap <leader>e :bp<bar>bd #<cr>
-nnoremap <leader>q :wq<cr>
+map <unique> <Leader>q <Plug>Kwbd
 nnoremap <leader>c :%y+<cr>
 nnoremap <leader>t :tabnew<cr>
 nnoremap <leader>x :q!<cr>
