@@ -125,6 +125,9 @@ tnoremap <C-p> <C-\><C-n>pi
 tnoremap <C-n> <C-\><C-n>:rightb vsplit<CR><C-\><C-n>:terminal<CR>
 nnoremap <C-n> :rightb vsplit<CR><C-l>:terminal<CR>
 
+nnoremap <C-A-n> :botright split<CR><C-l>:terminal<CR>
+tnoremap <C-A-n> <C-\><C-n>:split<CR><C-\><C-n>:terminal<CR>
+
 " Stop neovim from closing terminals after :q
 autocmd TermOpen * set bufhidden=hide
 
