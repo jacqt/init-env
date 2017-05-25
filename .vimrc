@@ -26,7 +26,7 @@ Plugin 'Shougo/deoplete.nvim'
 Plugin 'heavenshell/vim-jsdoc'
 Plugin 'neomake/neomake'
 Plugin 'Shougo/vimproc.vim'
-Plugin 'airblade/vim-gitgutter'
+Plugin 'mhinz/vim-signify'
 Plugin 'jgdavey/tslime.vim'
 Plugin 'mindriot101/vim-tslime-input'
 Plugin 'alvan/vim-closetag'
@@ -125,12 +125,9 @@ tnoremap <C-p> <C-\><C-n>pi
 tnoremap <C-n> <C-\><C-n>:rightb vsplit<CR><C-\><C-n>:terminal<CR>
 nnoremap <C-n> :rightb vsplit<CR><C-l>:terminal<CR>
 
-"Color scheme for terminal
-let g:terminal_color_0="#1b2b34"
-let g:terminal_color_1="#ed5f67"
-let g:terminal_color_2="#9ac895"
-let g:terminal_color_3="#fbc963"
-let g:terminal_color_4="#669acd"
+" Stop neovim from closing terminals after :q
+autocmd TermOpen * set bufhidden=hide
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -195,6 +192,7 @@ nnoremap <leader>j :Denite jump<CR>
 """ Settings for tslime.vim
 let g:tslime_always_current_session = 1
 let g:tslime_always_current_window = 1
+let g:signify_realtime = 1
 
 
 """ Settings for gitgutter
@@ -400,7 +398,7 @@ set tabline=%!MyTabLine()
 set mouse-=a
 set shell=/bin/bash
 
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor-blinkon250,r-cr:hor20bCursor/lCursor
 
 """""""""""""""""""""""""""""""""""""""""""
 """ Customize gvim
