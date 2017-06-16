@@ -38,6 +38,7 @@ Plugin 'Shougo/denite.nvim'
 " Plugin 'xolox/vim-session'
 " Plugin 'tpope/vim-obsession'
 Plugin 'tpope/vim-fugitive'
+Plugin 'joeytwiddle/sexy_scroller.vim'
 
 " Plugin 'wincent/Command-T'
 " Plugin 'vim-scripts/ShowTrailingWhitespace'
@@ -131,6 +132,11 @@ tnoremap <C-A-n> <C-\><C-n>:split<CR><C-\><C-n>:terminal<CR>
 " Stop neovim from closing terminals after :q
 autocmd TermOpen * set bufhidden=hide
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Abbrevations
+iab teh the
+iab cl console.log
+iab im import
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -157,11 +163,13 @@ set backupcopy=yes
 
 "" Shortcuts for writing, quitting, and copying, and tabs
 nnoremap <leader>w :w<cr>
-map <unique> <Leader>q :w<cr><Plug>Kwbd
+map <unique> <Leader>q <Plug>Kwbd
 nnoremap <leader>c :%y+<cr>
 nnoremap <leader>t :tabnew<cr>
 nnoremap <leader>x :q!<cr>
 nnoremap <leader>d :JsDoc<cr>
+nnoremap <leader>pr :file term:///.//repl<cr>
+nnoremap <leader>pt :file term:///.//terminal<cr>
 nnoremap gn gt
 nnoremap gp gT
 
@@ -195,7 +203,7 @@ nnoremap <leader>j :Denite jump<CR>
 """ Settings for tslime.vim
 let g:tslime_always_current_session = 1
 let g:tslime_always_current_window = 1
-let g:signify_realtime = 1
+" let g:signify_realtime = 1
 
 
 """ Settings for gitgutter
@@ -238,8 +246,8 @@ autocmd FileType clojure nnoremap <leader>e :Tmux (run-test)<cr>
 autocmd FileType clojure nnoremap <leader>re :Require <bar> :Tmux (run-test)<cr>
 
 " react-native 
-autocmd FileType javascript nnoremap <leader>r :! $HOME/github/venmo_app/scripts/android_reload.sh<cr>
-autocmd FileType javascript nnoremap <leader>re :! $HOME/github/venmo_app/scripts/android_menu.sh<cr>
+" autocmd FileType javascript nnoremap <leader>r :! $HOME/github/venmo_app/scripts/android_reload.sh<cr>
+" autocmd FileType javascript nnoremap <leader>re :! $HOME/github/venmo_app/scripts/android_menu.sh<cr>
 
 """ Python specific settings
 autocmd FileType python nnoremap <leader>r : call RunPython()<cr>
@@ -398,7 +406,7 @@ function! MyTabLine()
 endfunction
 set tabline=%!MyTabLine()
 
-set mouse-=a
+set mouse=a
 set shell=/bin/bash
 
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor-blinkon250,r-cr:hor20bCursor/lCursor
@@ -425,3 +433,4 @@ if has("gui_running")
 endif
 """""""""""""""""""""""""""""""""""""""""""
 set t_Co=256
+
