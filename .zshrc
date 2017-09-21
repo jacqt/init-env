@@ -55,7 +55,7 @@ plugins=(git)
 
 # export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
-export PATH="~/bin:$PATH"
+export PATH=":$HOME/.local/bin:$HOME/bin:$PATH"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -91,9 +91,52 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR="v"
 . /home/anthony/.jarvis_config/jarvis
 
-# LS_COLORS='ow=01;36;40'
-# export LS_COLORS 
-
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
+
+# # Add hook for autocorrect.
+if [ -n "$ZSH_VERSION" ]; then
+  alias __hist_last_cmd__="fc -ln -1"
+else
+  alias __hist_last_cmd__="history 1 | cut -c 8-"
+fi
+function __prompt_command {
+  local EXIT="$?"
+
+  local HISTTIMEFORMAT=""
+  HISTCMD_previous=$(__hist_last_cmd__)
+
+  # Only consider errors where the exit status of 127 indicates
+  # "Command not found".
+  if [[ $EXIT -eq "127" ]]; then
+    if [[ $HISTCMD_previous != "$HISTCMD_last" ]]; then
+      HISTCMD_last=$HISTCMD_previous
+      source autocorrect "$HISTCMD_previous" "$EXIT"
+    fi
+  fi
+
+  # Change the title of the terminal window to the current directory.
+  printf "\033]0;%s\007" "${PWD/#$HOME/~}"
+
+  HISTCMD_last=$HISTCMD_previous
+}
+export HISTFILE="$HOME/.zsh_history"
+export PROMPT_COMMAND="__prompt_command"
+
+# Zsh-specific hooks
+function precmd {
+  eval "$PROMPT_COMMAND"
+}
+export SAVEHIST="10000000"
+
+panewrap () { printf "\033]2;%s\033\\" "$1"; "$@";   printf "\033]2;%s\033\\" "zsh" }
+export EDITOR=v
+
+v() {
+  if [ -z $NVIM_LISTEN_ADDRESS ]; then
+    panewrap nvim $@
+  else
+    nvr $@
+  fi
+}

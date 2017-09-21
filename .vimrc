@@ -18,6 +18,7 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'Valloric/MatchTagAlways'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'vim-scripts/Colour-Sampler-Pack'
+Plugin 'morhetz/gruvbox'
 Plugin 'scrooloose/nerdtree'
 " Plugin 'Valloric/YouCompleteMe'
 Plugin 'Shougo/deoplete.nvim'
@@ -25,9 +26,13 @@ Plugin 'carlitux/deoplete-ternjs'
 Plugin 'heavenshell/vim-jsdoc'
 Plugin 'neomake/neomake'
 Plugin 'Shougo/vimproc.vim'
+Plugin 'mhinz/vim-signify'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'jgdavey/tslime.vim'
 Plugin 'mindriot101/vim-tslime-input'
+Plugin 'alvan/vim-closetag'
+Plugin 'vim-scripts/kwbdi.vim'
+Plugin 'tpope/vim-surround'
 
 "
 Plugin 'Shougo/denite.nvim'
@@ -36,6 +41,7 @@ Plugin 'Shougo/denite.nvim'
 " Plugin 'xolox/vim-session'
 " Plugin 'tpope/vim-obsession'
 Plugin 'tpope/vim-fugitive'
+Plugin 'joeytwiddle/sexy_scroller.vim'
 
 " Plugin 'wincent/Command-T'
 " Plugin 'vim-scripts/ShowTrailingWhitespace'
@@ -76,10 +82,10 @@ set hlsearch
 set incsearch
 set smartcase
 set autochdir
-set foldmethod=manual
+set foldmethod=indent
 set foldnestmax=3
 set foldlevel=1
-set number
+" set number
 set shiftwidth=2
 set tabstop=2
 set softtabstop=2
@@ -97,6 +103,62 @@ set scrolloff=1
 set sidescrolloff=5
 set statusline=%{fugitive#statusline()}\ %f
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Settings for neovim terminal
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Remap navigation
+tnoremap <C-h> <C-\><C-N><C-w>h
+tnoremap <C-j> <C-\><C-N><C-w>j
+tnoremap <C-k> <C-\><C-N><C-w>k
+tnoremap <C-l> <C-\><C-N><C-w>l
+inoremap <C-h> <C-\><C-N><C-w>h
+inoremap <C-j> <C-\><C-N><C-w>j
+inoremap <C-k> <C-\><C-N><C-w>k
+inoremap <C-l> <C-\><C-N><C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+" Map Ctrl+] to escape
+tnoremap <C-[> <C-\><C-n>
+" When entering a terminal, go into insert mode
+autocmd BufWinEnter,WinEnter term://* startinsert
+
+tnoremap <C-p> <C-\><C-n>pi
+tnoremap <C-n> <C-\><C-n>:rightb vsplit<CR><C-\><C-n>:terminal<CR>
+nnoremap <C-n> :rightb vsplit<CR><C-l>:terminal<CR>
+
+nnoremap <C-A-n> :botright split<CR><C-l>:terminal<CR>
+tnoremap <C-A-n> <C-\><C-n>:split<CR><C-\><C-n>:terminal<CR>
+
+" Stop neovim from closing terminals after :q
+autocmd TermOpen * set bufhidden=hide
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Abbrevations
+iab teh the
+iab cl console.log
+iab im import
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+command! CloseHiddenBuffers call s:CloseHiddenBuffers()
+function! s:CloseHiddenBuffers()
+  let open_buffers = []
+
+  for i in range(tabpagenr('$'))
+    call extend(open_buffers, tabpagebuflist(i + 1))
+  endfor
+
+  for num in range(1, bufnr("$") + 1)
+    if buflisted(num) && index(open_buffers, num) == -1
+      exec "bdelete ".num
+    endif
+  endfor
+endfunction
+
 " Webpack
 set backupcopy=yes
 
@@ -105,13 +167,17 @@ set backupcopy=yes
 
 "" Shortcuts for writing, quitting, and copying, and tabs
 nnoremap <leader>w :w<cr>
-nnoremap <leader>q :wq<cr>
+map <unique> <Leader>q <Plug>Kwbd
 nnoremap <leader>c :%y+<cr>
 nnoremap <leader>t :tabnew<cr>
 nnoremap <leader>x :q!<cr>
+nnoremap <leader>v :vs<cr>
+nnoremap <leader>i :sp<cr>
 nnoremap <leader>d :JsDoc<cr>
-nnoremap gj gt
-nnoremap gh gT
+nnoremap <leader>pr :file term:///.//repl<cr>
+nnoremap <leader>pt :file term:///.//terminal<cr>
+nnoremap gn gt
+nnoremap gp gT
 
 """""""""""""""""""""""""""""""""""""""""""
 """ Settings for Denite.vim
@@ -125,7 +191,7 @@ call denite#custom#source('file_rec', 'matchers', ['matcher_fuzzy'])
 " Ack command on grep source
 call denite#custom#var('grep', 'command', ['ack'])
 call denite#custom#var('grep', 'default_opts',
-      \ ['-H', '--nopager', '--nocolor', '--nogroup', '--column'])
+      \ ['-H', '--nopager', '--nocolor', '--nogroup', '--column', '--ignore-dir', '.happypack', '--ignore-dir', 'dist'])
 call denite#custom#var('grep', 'recursive_opts', [])
 call denite#custom#var('grep', 'pattern_opt', ['--match'])
 call denite#custom#var('grep', 'separator', ['--'])
@@ -169,8 +235,11 @@ nnoremap <C-6> <C-S-^>
 "color wombat256
 "color moria
 "color bclear
-color wombat256mod
+" color wombat256mod
 " color darkblue
+let g:gruvbox_contrast_dark='hard'
+color gruvbox
+set background=dark
 
 """ Clojure specific settings
 let g:paredit_shortmaps=0
@@ -181,8 +250,8 @@ autocmd FileType clojure nnoremap <leader>e :Tmux (run-test)<cr>
 autocmd FileType clojure nnoremap <leader>re :Require <bar> :Tmux (run-test)<cr>
 
 " react-native 
-autocmd FileType javascript nnoremap <leader>r :! $HOME/github/venmo_app/scripts/android_reload.sh<cr>
-autocmd FileType javascript nnoremap <leader>re :! $HOME/github/venmo_app/scripts/android_menu.sh<cr>
+" autocmd FileType javascript nnoremap <leader>r :! $HOME/github/venmo_app/scripts/android_reload.sh<cr>
+" autocmd FileType javascript nnoremap <leader>re :! $HOME/github/venmo_app/scripts/android_menu.sh<cr>
 
 """ Python specific settings
 autocmd FileType python nnoremap <leader>r : call RunPython()<cr>
@@ -252,6 +321,7 @@ endfunction
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 nnoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<TAB>"
 
+let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.php,*.jsx,*.js"
 
 " Use deoplete.
 let g:tern_request_timeout = 1
