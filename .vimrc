@@ -31,6 +31,7 @@ Plugin 'jgdavey/tslime.vim'
 Plugin 'mindriot101/vim-tslime-input'
 Plugin 'alvan/vim-closetag'
 Plugin 'vim-scripts/kwbdi.vim'
+Plugin 'tpope/vim-surround'
 
 Plugin 'Shougo/denite.nvim'
 
@@ -79,10 +80,10 @@ set hlsearch
 set incsearch
 set smartcase
 set autochdir
-set foldmethod=manual
+set foldmethod=indent
 set foldnestmax=3
 set foldlevel=1
-set number
+" set number
 set shiftwidth=2
 set tabstop=2
 set softtabstop=2
@@ -167,6 +168,8 @@ map <unique> <Leader>q <Plug>Kwbd
 nnoremap <leader>c :%y+<cr>
 nnoremap <leader>t :tabnew<cr>
 nnoremap <leader>x :q!<cr>
+nnoremap <leader>v :vs<cr>
+nnoremap <leader>i :sp<cr>
 nnoremap <leader>d :JsDoc<cr>
 nnoremap <leader>pr :file term:///.//repl<cr>
 nnoremap <leader>pt :file term:///.//terminal<cr>
@@ -219,6 +222,10 @@ set re=1
 set ttyfast
 set lazyredraw
 
+""" Settings for vim-surround
+
+let b:surround_indent=1
+
 
 nnoremap <C-6> <C-S-^>
 
@@ -270,6 +277,7 @@ autocmd! BufWritePost * Neomake
 " let b:neomake_jsx_enabled_makers = ['eslint']
 " let b:neomake_jsx_eslint_exe = '/home/anthony/github/hammerhead/node_modules/.bin/eslint'
 " let b:neomake_javascript_eslint_exe = '/home/anthony/github/hammerhead/node_modules/.bin/eslint'
+let g:neomake_logfile = '/tmp/neomake.log'
 
 function! NeomakeESlintChecker()
   let l:npm_bin = ''
@@ -282,10 +290,9 @@ function! NeomakeESlintChecker()
   if strlen(l:npm_bin) && executable(l:npm_bin . '/eslint')
     let l:eslint = l:npm_bin . '/eslint'
   endif
-
-
+  let b:neomake_javascript_eslint_exe = l:eslint
 endfunction
-" autocmd FileType javascript :call NeomakeESlintChecker()
+autocmd FileType javascript :call NeomakeESlintChecker()
 
 """""""""""""""""""""""""""""""""""""""""""
 
