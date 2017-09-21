@@ -88,13 +88,12 @@ source $ZSH/oh-my-zsh.sh
 #   exec tmux
 # fi
 
-export EDITOR="vim"
+export EDITOR="v"
 . /home/anthony/.jarvis_config/jarvis
 
-LS_COLORS='ow=01;36;40'
-export LS_COLORS 
+# LS_COLORS='ow=01;36;40'
+# export LS_COLORS 
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
-panewrap () { printf "\033]2;%s\033\\" "$1"; "$@";   printf "\033]2;%s\033\\" "zsh" }
