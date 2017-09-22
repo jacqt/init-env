@@ -30,7 +30,7 @@ Plugin 'mhinz/vim-signify'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'jgdavey/tslime.vim'
 Plugin 'mindriot101/vim-tslime-input'
-Plugin 'alvan/vim-closetag'
+" Plugin 'alvan/vim-closetag'
 Plugin 'vim-scripts/kwbdi.vim'
 Plugin 'tpope/vim-surround'
 
@@ -125,10 +125,12 @@ nnoremap <C-l> <C-w>l
 tnoremap <C-[> <C-\><C-n>
 " When entering a terminal, go into insert mode
 autocmd BufWinEnter,WinEnter term://* startinsert
+autocmd BufWinEnter,WinEnter term://* :let g:SexyScroller_AutocmdsEnabled = 0
+autocmd BufWinLeave,WinLeave term://* :let g:SexyScroller_AutocmdsEnabled = 1
 
 tnoremap <C-p> <C-\><C-n>pi
 tnoremap <C-n> <C-\><C-n>:rightb vsplit<CR><C-\><C-n>:terminal<CR>
-nnoremap <C-n> :rightb vsplit<CR><C-l>:terminal<CR>
+nnoremap <C-n> :rightb vsplit<CR><C-l>:let g:SexyScroller_AutocmdsEnabled = 0<CR>:terminal<CR>
 
 nnoremap <C-A-n> :botright split<CR><C-l>:terminal<CR>
 tnoremap <C-A-n> <C-\><C-n>:split<CR><C-\><C-n>:terminal<CR>
@@ -325,6 +327,9 @@ let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.php,*.jsx,*.js"
 
 " Use deoplete.
 let g:tern_request_timeout = 1
+let g:deoplete#sources#ternjs#types = 1
+let g:deoplete#sources#ternjs#docs = 1
+
 " let g:tern_show_signature_in_pum = '0'  " This do disable full signature type on autocomplete
 
 "Add extra filetypes
@@ -409,7 +414,6 @@ endfunction
 set tabline=%!MyTabLine()
 
 set mouse-=a
-set shell=/bin/bash
 
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
