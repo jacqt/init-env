@@ -125,15 +125,13 @@ nnoremap <C-l> <C-w>l
 tnoremap <C-[> <C-\><C-n>
 " When entering a terminal, go into insert mode
 autocmd BufWinEnter,WinEnter term://* startinsert
-autocmd BufWinEnter,WinEnter term://* :let g:SexyScroller_AutocmdsEnabled = 0
-autocmd BufWinLeave,WinLeave term://* :let g:SexyScroller_AutocmdsEnabled = 1
 
 tnoremap <C-p> <C-\><C-n>pi
 tnoremap <C-n> <C-\><C-n>:rightb vsplit<CR><C-\><C-n>:terminal<CR>
-nnoremap <C-n> :rightb vsplit<CR><C-l>:let g:SexyScroller_AutocmdsEnabled = 0<CR>:terminal<CR>
+nnoremap <C-n> :rightb vsplit<CR><C-l>:terminal<CR>:startinsert<CR>
 
-nnoremap <C-A-n> :botright split<CR><C-l>:terminal<CR>
-tnoremap <C-A-n> <C-\><C-n>:split<CR><C-\><C-n>:terminal<CR>
+nnoremap <C-A-n> :botright split<CR><C-l>:terminal<CR>:startinsert<CR>
+tnoremap <C-A-n> <C-\><C-n>:split<CR><C-\><C-n>:terminal<CR>:startinsert<CR>
 
 " Stop neovim from closing terminals after :q
 autocmd TermOpen * set bufhidden=hide
@@ -165,7 +163,7 @@ endfunction
 set backupcopy=yes
 
 "" Underline the current line when in insert mode
-:autocmd InsertEnter,InsertLeave * set cul!
+" :autocmd InsertEnter,InsertLeave * set cul!
 
 "" Shortcuts for writing, quitting, and copying, and tabs
 nnoremap <leader>w :w<cr>
@@ -242,6 +240,7 @@ nnoremap <C-6> <C-S-^>
 let g:gruvbox_contrast_dark='hard'
 color gruvbox
 set background=dark
+hi Normal ctermbg=none
 
 """ Clojure specific settings
 let g:paredit_shortmaps=0
