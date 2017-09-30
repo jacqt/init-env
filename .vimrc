@@ -23,8 +23,10 @@ Plugin 'scrooloose/nerdtree'
 " Plugin 'Valloric/YouCompleteMe'
 Plugin 'Shougo/deoplete.nvim'
 " Plugin 'carlitux/deoplete-ternjs'
+Plugin 'w0rp/ale'
+Plugin 'mhartington/nvim-typescript'
+Plugin 'HerringtonDarkholme/yats.vim'
 Plugin 'heavenshell/vim-jsdoc'
-Plugin 'neomake/neomake'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'mhinz/vim-signify'
 Plugin 'jgdavey/tslime.vim'
@@ -57,6 +59,7 @@ Plugin 'vim-ruby/vim-ruby'
 """ JS / JSX
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+Plugin 'peitalin/vim-jsx-typescript'
 Plugin 'cakebaker/scss-syntax.vim'
 
 
@@ -271,29 +274,35 @@ endfunction
 
 """""""""""""""""""""""""""""""""""""""""""
 """ Linting
-autocmd! BufWritePost * Neomake
-" let g:neomake_javascript_enabled_makers = ['eslint']
-" let b:neomake_javascript_enabled_makers = ['eslint']
-" let b:neomake_jsx_enabled_makers = ['eslint']
-" let b:neomake_jsx_eslint_exe = '/home/anthony/github/hammerhead/node_modules/.bin/eslint'
-" let b:neomake_javascript_eslint_exe = '/home/anthony/github/hammerhead/node_modules/.bin/eslint'
-let g:neomake_logfile = '/tmp/neomake.log'
+" Asynchronous Lint Engine (ALE)
+" Limit linters used for JavaScript.
 
-function! NeomakeESlintChecker()
-  let l:npm_bin = ''
-  let l:eslint = 'eslint'
+let g:ale_linters = {
+\  'javascript': ['eslint'],
+\  'typescript': ['tsserver', 'tslint']
+\}
+highlight clear ALEErrorSign " otherwise uses error bg color (typically red)
+highlight clear ALEWarningSign " otherwise uses error bg color (typically red)
+let g:ale_sign_error = 'X' " could use emoji
+let g:ale_sign_warning = '?' " could use emoji
+let g:ale_statusline_format = ['X %d', '? %d', '']
+" %linter% is the name of the linter that provided the message
+" %s is the error or warning message
+let g:ale_echo_msg_format = '%linter% says %s'
+" Map keys to navigate between lines with errors and warnings.
+nnoremap <leader>an :ALENextWrap<cr>
+nnoremap <leader>ap :ALEPreviousWrap<cr>
 
-  if executable('npm')
-    let l:npm_bin = split(system('npm bin'), '\n')[0]
-  endif
+nnoremap <leader>k :TSType<cr>
+nnoremap <leader>j :TSDef<cr>
+nnoremap <leader>d :TSDoc<cr>
+nnoremap <leader>ar :TSRename<cr>
+nnoremap <leader>ai :TSImport<cr>
 
-  if strlen(l:npm_bin) && executable(l:npm_bin . '/eslint')
-    let l:eslint = l:npm_bin . '/eslint'
-  endif
-  let b:neomake_javascript_eslint_exe = l:eslint
-endfunction
-autocmd FileType javascript :call NeomakeESlintChecker()
-
+let g:ale_pattern_options = {
+\   '.*node_modules/.*\.tsx$': {'ale_enabled': 0},
+\   '.*node_modules/.*\.ts$': {'ale_enabled': 0},
+\}
 """""""""""""""""""""""""""""""""""""""""""
 
 """ Auto pair setting
