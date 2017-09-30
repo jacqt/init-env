@@ -181,7 +181,6 @@ nnoremap <leader>t :tabnew<cr>
 nnoremap <leader>x :q!<cr>
 nnoremap <leader>v :vs<cr>
 nnoremap <leader>i :sp<cr>
-nnoremap <leader>d :JsDoc<cr>
 nnoremap <leader>pr :file term:///.//repl<cr>
 nnoremap <leader>pt :file term:///.//terminal<cr>
 nnoremap gn gt
@@ -295,13 +294,17 @@ nnoremap <leader>an :ALENextWrap<cr>
 nnoremap <leader>ap :ALEPreviousWrap<cr>
 " do not lint node_modules :)
 let g:ale_pattern_options = {
-\   '.*node_modules/.*\.tsx?$': {'ale_enabled': 0},
+\   '.*node_modules/.*\.ts$': {'ale_enabled': 0},
+\   '.*node_modules/.*\.tsx$': {'ale_enabled': 0},
 \}
 """""""""""""""""""""""""""""""""""""""""""
 
 let g:javascript_plugin_flow = 1
 nnoremap <leader>k :TSType<cr>
 nnoremap <leader>j :TSDef<cr>
+nnoremap <leader>d :TSDoc<cr>
+nnoremap <leader>ar :TSRename<cr>
+nnoremap <leader>ai :TSImport<cr>
 
 let g:flow#enable = 0
 "Use locally installed flow
