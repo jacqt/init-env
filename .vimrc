@@ -22,9 +22,14 @@ Plugin 'morhetz/gruvbox'
 Plugin 'scrooloose/nerdtree'
 " Plugin 'Valloric/YouCompleteMe'
 Plugin 'Shougo/deoplete.nvim'
-Plugin 'carlitux/deoplete-ternjs'
+" Plugin 'carlitux/deoplete-ternjs'
+Plugin 'mhartington/nvim-typescript'
+Plugin 'HerringtonDarkholme/yats.vim'
+" Plugin 'leafgarland/typescript-vim'
+Plugin 'w0rp/ale'
+" Plugin 'Shougo/neosnippet'
+" Plugin 'Shougo/neosnippet-snippets'
 Plugin 'heavenshell/vim-jsdoc'
-Plugin 'neomake/neomake'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'mhinz/vim-signify'
 Plugin 'airblade/vim-gitgutter'
@@ -59,6 +64,7 @@ Plugin 'vim-ruby/vim-ruby'
 """ JS / JSX
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+Plugin 'peitalin/vim-jsx-typescript'
 Plugin 'cakebaker/scss-syntax.vim'
 
 
@@ -85,7 +91,7 @@ set autochdir
 set foldmethod=indent
 set foldnestmax=3
 set foldlevel=1
-" set number
+set number
 set shiftwidth=2
 set tabstop=2
 set softtabstop=2
@@ -107,6 +113,8 @@ set statusline=%{fugitive#statusline()}\ %f
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Settings for neovim terminal
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+au TermOpen * setlocal nonumber norelativenumber
 
 " Remap navigation
 tnoremap <C-h> <C-\><C-N><C-w>h
@@ -202,7 +210,6 @@ nnoremap <C-p> :DeniteProjectDir file_rec<cr>
 nnoremap <leader>g :DeniteProjectDir grep<cr>
 nnoremap <leader>f :DeniteProjectDir grep:::<C-R><C-w><CR>
 nnoremap <leader>s :Denite buffer<cr>
-nnoremap <leader>j :Denite jump<CR>
 
 """""""""""""""""""""""""""""""""""""""""""
 
@@ -269,30 +276,42 @@ endfunction
 
 """""""""""""""""""""""""""""""""""""""""""
 """ Linting
-autocmd! BufWritePost * Neomake
-let g:neomake_javascript_enabled_makers = ['eslint']
-
-function! NeomakeESlintChecker()
-  let l:npm_bin = ''
-  let l:eslint = 'eslint'
-
-  if executable('npm')
-    let l:npm_bin = split(system('npm bin'), '\n')[0]
-  endif
-
-  if strlen(l:npm_bin) && executable(l:npm_bin . '/eslint')
-    let l:eslint = l:npm_bin . '/eslint'
-  endif
-
-  let b:neomake_javascript_enabled_makers = ['eslint']
-  let b:neomake_jsx_enabled_makers = ['eslint']
-  let b:neomake_jsx_eslint_exe = l:eslint
-  let b:neomake_javascript_eslint_exe = l:eslint
-
-endfunction
-autocmd FileType javascript :call NeomakeESlintChecker()
-
+" Asynchronous Lint Engine (ALE)
+" Limit linters used for JavaScript.
+let g:ale_linters = {
+\  'javascript': ['eslint'],
+\  'typescript': ['tsserver', 'tslint'],
+\}
+highlight clear ALEErrorSign " otherwise uses error bg color (typically red)
+highlight clear ALEWarningSign " otherwise uses error bg color (typically red)
+let g:ale_sign_error = 'X' " could use emoji
+let g:ale_sign_warning = '?' " could use emoji
+let g:ale_statusline_format = ['X %d', '? %d', '']
+" %linter% is the name of the linter that provided the message
+" %s is the error or warning message
+let g:ale_echo_msg_format = '%linter% says %s'
+" Map keys to navigate between lines with errors and warnings.
+nnoremap <leader>an :ALENextWrap<cr>
+nnoremap <leader>ap :ALEPreviousWrap<cr>
+" do not lint node_modules :)
+let g:ale_pattern_options = {
+\   '.*node_modules/.*\.tsx?$': {'ale_enabled': 0},
+\}
 """""""""""""""""""""""""""""""""""""""""""
+
+let g:javascript_plugin_flow = 1
+nnoremap <leader>k :TSType<cr>
+nnoremap <leader>j :TSDef<cr>
+
+let g:flow#enable = 0
+"Use locally installed flow
+let local_flow = finddir('node_modules', '.;') . '/.bin/flow'
+if matchstr(local_flow, "^\/\\w") == ''
+    let local_flow= getcwd() . "/" . local_flow
+endif
+if executable(local_flow)
+  let g:flow#flowpath = local_flow
+endif
 
 """ Auto pair setting
 let g:AutoPairsCenterLine=0

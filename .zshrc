@@ -140,3 +140,6 @@ v() {
     nvr $@
   fi
 }
+
+# Pull in key remaps
+xmodmap $HOME/.Xmodmap
