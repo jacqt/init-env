@@ -302,9 +302,10 @@ let g:ale_pattern_options = {
 let g:javascript_plugin_flow = 1
 nnoremap <leader>k :TSType<cr>
 nnoremap <leader>j :TSDef<cr>
-nnoremap <leader>d :TSDoc<cr>
+nnoremap <leader>d :TSDefPreview<cr>
 nnoremap <leader>ar :TSRename<cr>
 nnoremap <leader>ai :TSImport<cr>
+nnoremap <leader>ad :JsDoc<cr>
 
 let g:flow#enable = 0
 "Use locally installed flow
