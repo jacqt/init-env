@@ -55,7 +55,7 @@ plugins=(git)
 
 # export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
-export PATH=":$HOME/.local/bin:$HOME/bin:$PATH"
+export PATH=":$HOME/.local/bin:$HOME/bin:$PATH:$HOME/.cargo/bin"
 
 source $ZSH/oh-my-zsh.sh
 

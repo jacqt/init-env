@@ -24,8 +24,8 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'Shougo/deoplete.nvim'
 " Plugin 'carlitux/deoplete-ternjs'
 Plugin 'mhartington/nvim-typescript'
-Plugin 'HerringtonDarkholme/yats.vim'
-" Plugin 'leafgarland/typescript-vim'
+" Plugin 'HerringtonDarkholme/yats.vim'
+Plugin 'leafgarland/typescript-vim'
 Plugin 'w0rp/ale'
 " Plugin 'Shougo/neosnippet'
 " Plugin 'Shougo/neosnippet-snippets'
@@ -41,6 +41,7 @@ Plugin 'tpope/vim-surround'
 
 "
 Plugin 'Shougo/denite.nvim'
+Plugin 'Shougo/echodoc.vim'
 
 " Plugin 'xolox/vim-misc'
 " Plugin 'xolox/vim-session'
@@ -62,16 +63,19 @@ Plugin 'tpope/vim-rails'
 Plugin 'vim-ruby/vim-ruby'
 
 """ JS / JSX
-Plugin 'pangloss/vim-javascript'
+" Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'peitalin/vim-jsx-typescript'
-Plugin 'cakebaker/scss-syntax.vim'
+" Plugin 'jason0x43/vim-js-indent'
+" Plugin 'cakebaker/scss-syntax.vim'
 
 
 """ CLOJURE / CLOJURESCRIPT / COMMON LISP
 Plugin 'tpope/vim-fireplace'
 Plugin 'guns/vim-clojure-static'
 Plugin 'vim-scripts/paredit.vim'
+
+Plugin 'neoclide/vim-jsx-improve'
 "Plugin 'vim-scripts/VimClojure'
 "Plugin 'vim-scripts/cljfold.vim'
 "Plugin 'kovisoft/slimv'
@@ -109,6 +113,9 @@ set scrolloff=1
 set sidescrolloff=5
 set statusline=%{fugitive#statusline()}\ %f
 
+
+
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.jsx
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Settings for neovim terminal
@@ -276,6 +283,9 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""
 """ Linting
 " Asynchronous Lint Engine (ALE)
+
+" Don't run linters so aggressively
+let g:ale_lint_delay = 1000
 " Limit linters used for JavaScript.
 let g:ale_linters = {
 \  'javascript': ['eslint'],
@@ -329,12 +339,11 @@ endif
 
 let g:deoplete#keyword_patterns = {}
 let g:deoplete#keyword_patterns.clojure = '[\w!$%&*+/:<=>?@\^_~\-\.]*'
+" let g:deoplete#keyword_patterns.typescript = '[^. *\t]\.\w*'
 let g:deoplete#omni#input_patterns.clojure = '/'
 
 " let g:deoplete#disable_auto_complete = 1
 autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
-" <CR>: close popup and save indent.
-
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
 "  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
@@ -343,7 +352,7 @@ function! s:my_cr_function()
 endfunction
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-nnoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<TAB>"
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<TAB>"
 
 let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.php,*.jsx,*.js"
 
