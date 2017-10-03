@@ -235,7 +235,7 @@ let g:jsx_ext_required = 0
 set norelativenumber
 set re=1
 set ttyfast
-set lazyredraw
+set nolazyredraw
 
 
 nnoremap <C-6> <C-S-^>
