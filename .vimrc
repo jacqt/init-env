@@ -20,22 +20,15 @@ Plugin 'tomtom/tcomment_vim'
 Plugin 'vim-scripts/Colour-Sampler-Pack'
 Plugin 'morhetz/gruvbox'
 Plugin 'scrooloose/nerdtree'
-" Plugin 'Valloric/YouCompleteMe'
 Plugin 'Shougo/deoplete.nvim'
-" Plugin 'carlitux/deoplete-ternjs'
 Plugin 'mhartington/nvim-typescript'
-" Plugin 'HerringtonDarkholme/yats.vim'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'w0rp/ale'
-" Plugin 'Shougo/neosnippet'
-" Plugin 'Shougo/neosnippet-snippets'
 Plugin 'heavenshell/vim-jsdoc'
 Plugin 'Shougo/vimproc.vim'
-Plugin 'mhinz/vim-signify'
-Plugin 'airblade/vim-gitgutter'
 Plugin 'jgdavey/tslime.vim'
 Plugin 'mindriot101/vim-tslime-input'
-" Plugin 'alvan/vim-closetag'
+
 Plugin 'vim-scripts/kwbdi.vim'
 Plugin 'tpope/vim-surround'
 
@@ -63,12 +56,12 @@ Plugin 'tpope/vim-rails'
 Plugin 'vim-ruby/vim-ruby'
 
 """ JS / JSX
-" Plugin 'pangloss/vim-javascript'
+Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'peitalin/vim-jsx-typescript'
 " Plugin 'jason0x43/vim-js-indent'
 " Plugin 'cakebaker/scss-syntax.vim'
-
+" Plugin 'alvan/vim-closetag'
 
 """ CLOJURE / CLOJURESCRIPT / COMMON LISP
 Plugin 'tpope/vim-fireplace'
@@ -116,6 +109,7 @@ set statusline=%{fugitive#statusline()}\ %f
 
 
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.jsx
+autocmd BufWinEnter,Winenter * set nolazyredraw
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Settings for neovim terminal
@@ -225,7 +219,7 @@ let g:tslime_always_current_window = 1
 
 
 """ Settings for gitgutter
-set updatetime=250
+" set updatetime=250
 
 
 """ Settings for vim-jsx
@@ -253,7 +247,7 @@ nnoremap <C-6> <C-S-^>
 let g:gruvbox_contrast_dark='hard'
 color gruvbox
 set background=dark
-hi Normal ctermbg=none
+highlight Normal ctermbg=none
 
 """ Clojure specific settings
 let g:paredit_shortmaps=0
@@ -291,9 +285,15 @@ let g:ale_linters = {
 \  'javascript': ['eslint'],
 \  'typescript': ['tsserver', 'tslint'],
 \}
-highlight clear ALEErrorSign " otherwise uses error bg color (typically red)
-highlight clear ALEWarningSign " otherwise uses error bg color (typically red)
-let g:ale_sign_error = 'X' " could use emoji
+let g:ale_typescript_tslint_config_path = '/home/anthony/github/hammerhead/tslint.json'
+" highlight clear ALEErrorSign " otherwise uses error bg color (typically red)
+" highlight clear ALEWarningSign " otherwise uses error bg color (typically red)
+let g:ale_sign_error = '⚠️' " could use emoji
+highlight ALEErrorSign ctermbg=none ctermfg=red
+highlight SignColumn ctermbg=none
+highlight ALEError ctermfg=red ctermbg=none cterm=underline
+
+
 let g:ale_sign_warning = '?' " could use emoji
 let g:ale_statusline_format = ['X %d', '? %d', '']
 " %linter% is the name of the linter that provided the message
