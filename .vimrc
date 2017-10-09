@@ -17,12 +17,10 @@ Plugin 'gmarik/Vundle.vim'
 "Plugin 'Yggdroot/indentLine'
 Plugin 'Valloric/MatchTagAlways'
 Plugin 'tomtom/tcomment_vim'
-Plugin 'vim-scripts/Colour-Sampler-Pack'
+" Plugin 'vim-scripts/Colour-Sampler-Pack'
 Plugin 'morhetz/gruvbox'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Shougo/deoplete.nvim'
-Plugin 'mhartington/nvim-typescript'
-Plugin 'leafgarland/typescript-vim'
 Plugin 'w0rp/ale'
 Plugin 'heavenshell/vim-jsdoc'
 Plugin 'Shougo/vimproc.vim'
@@ -32,7 +30,6 @@ Plugin 'mindriot101/vim-tslime-input'
 Plugin 'vim-scripts/kwbdi.vim'
 Plugin 'tpope/vim-surround'
 
-"
 Plugin 'Shougo/denite.nvim'
 Plugin 'Shougo/echodoc.vim'
 
@@ -55,10 +52,13 @@ Plugin 'elixir-lang/vim-elixir'
 Plugin 'tpope/vim-rails'
 Plugin 'vim-ruby/vim-ruby'
 
-""" JS / JSX
-Plugin 'pangloss/vim-javascript'
+""" TS / TSX / JS / JSX
+Plugin 'mhartington/nvim-typescript'
+" Plugin 'leafgarland/typescript-vim'
+Plugin 'HerringtonDarkholme/yats.vim'
 Plugin 'mxw/vim-jsx'
-Plugin 'peitalin/vim-jsx-typescript'
+" Plugin 'pangloss/vim-javascript'
+" Plugin 'peitalin/vim-jsx-typescript'
 " Plugin 'jason0x43/vim-js-indent'
 " Plugin 'cakebaker/scss-syntax.vim'
 " Plugin 'alvan/vim-closetag'
@@ -68,7 +68,7 @@ Plugin 'tpope/vim-fireplace'
 Plugin 'guns/vim-clojure-static'
 Plugin 'vim-scripts/paredit.vim'
 
-Plugin 'neoclide/vim-jsx-improve'
+" Plugin 'neoclide/vim-jsx-improve'
 "Plugin 'vim-scripts/VimClojure'
 "Plugin 'vim-scripts/cljfold.vim'
 "Plugin 'kovisoft/slimv'
@@ -88,7 +88,7 @@ set autochdir
 set foldmethod=indent
 set foldnestmax=3
 set foldlevel=1
-set number
+set nonumber
 set shiftwidth=2
 set tabstop=2
 set softtabstop=2
