@@ -13,53 +13,34 @@ Plugin 'gmarik/Vundle.vim'
 "Plugin 'lambdatoast/elm.vim'
 
 """ UTILS
-"Plugin 'scrooloose/syntastic'
-"Plugin 'Yggdroot/indentLine'
 Plugin 'Valloric/MatchTagAlways'
 Plugin 'tomtom/tcomment_vim'
-Plugin 'vim-scripts/Colour-Sampler-Pack'
 Plugin 'morhetz/gruvbox'
 Plugin 'scrooloose/nerdtree'
-" Plugin 'Valloric/YouCompleteMe'
 Plugin 'Shougo/deoplete.nvim'
-" Plugin 'carlitux/deoplete-ternjs'
 Plugin 'w0rp/ale'
-Plugin 'mhartington/nvim-typescript'
-Plugin 'HerringtonDarkholme/yats.vim'
 Plugin 'heavenshell/vim-jsdoc'
 Plugin 'Shougo/vimproc.vim'
-Plugin 'mhinz/vim-signify'
 Plugin 'jgdavey/tslime.vim'
 Plugin 'mindriot101/vim-tslime-input'
-Plugin 'alvan/vim-closetag'
 Plugin 'vim-scripts/kwbdi.vim'
 Plugin 'tpope/vim-surround'
-
 Plugin 'Shougo/denite.nvim'
-
-" Plugin 'xolox/vim-misc'
-" Plugin 'xolox/vim-session'
-" Plugin 'tpope/vim-obsession'
+Plugin 'Shougo/echodoc.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'joeytwiddle/sexy_scroller.vim'
-
-" Plugin 'wincent/Command-T'
-" Plugin 'vim-scripts/ShowTrailingWhitespace'
 Plugin 'christoomey/vim-tmux-navigator'
-
 Plugin 'jiangmiao/auto-pairs'
-
-""" ELIXIR
-Plugin 'elixir-lang/vim-elixir'
 
 """ RUBY
 Plugin 'tpope/vim-rails'
 Plugin 'vim-ruby/vim-ruby'
 
 """ JS / JSX
-Plugin 'pangloss/vim-javascript'
+Plugin 'mhartington/nvim-typescript'
+" Plugin 'leafgarland/typescript-vim'
+Plugin 'HerringtonDarkholme/yats.vim'
 Plugin 'mxw/vim-jsx'
-Plugin 'peitalin/vim-jsx-typescript'
 Plugin 'cakebaker/scss-syntax.vim'
 
 
