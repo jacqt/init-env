@@ -85,6 +85,8 @@ set scrolloff=1
 set sidescrolloff=5
 set statusline=%{fugitive#statusline()}\ %f
 
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.jsx
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Settings for neovim terminal
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
